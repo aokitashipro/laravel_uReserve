@@ -24,9 +24,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::controller(LivewireTestController::class)
-->prefix('livewire-test')->group(function(){
-    Route::get('index', 'index')->name('livewire-test.index');
-    Route::get('register', 'register')->name('livewire-test.register');
+->prefix('livewire-test')->name('livewire-test.')->group(function(){
+    Route::get('index', 'index')->name('index');
+    Route::get('register', 'register')->name('register');
 });
 
 
