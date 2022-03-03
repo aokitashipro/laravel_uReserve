@@ -27,6 +27,13 @@ class Event extends Model
         );
     }
 
+    protected function editEventDate(): Attribute
+    {
+        return new Attribute(
+            get: fn() => Carbon::parse($this->start_date)->format('Y-m-d')
+        );
+    }
+
     protected function startTime(): Attribute
     {
         return new Attribute(
