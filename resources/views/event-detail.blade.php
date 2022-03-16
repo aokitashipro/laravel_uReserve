@@ -18,7 +18,8 @@
                 </div>
             @endif
     
-            <form method="get" action="{{ route('events.edit', ['event' => $event->id ]) }}">
+            <form method="post" action="{{ route('events.reserve', ['id' => $event->id ]) }}">
+                @csrf
                 <div>
                     <x-jet-label for="event_name" value="イベント名" />
                     {{ $event->name }}
@@ -49,7 +50,15 @@
                         <x-jet-label for="max_people" value="定員数" />
                         {{ $event->max_people }}
                     </div>
-                    
+                    <div class="mt-4">
+                        <x-jet-label for="reserved_people" value="予約人数" />
+                        <select name="reserved_people">
+                            @for($i = 1; $i <= $reservablePeople; $i++ )
+                                <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <input type="hidden" name="id" value="{{ $event->id }}">  
                     <x-jet-button class="ml-4">
                         予約する
                     </x-jet-button>

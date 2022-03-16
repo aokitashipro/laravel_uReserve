@@ -1583,11 +1583,11 @@ select {
 .pt-8 {
   padding-top: 2rem;
 }
-.pl-4 {
-  padding-left: 1rem;
-}
 .pb-2 {
   padding-bottom: 0.5rem;
+}
+.pl-4 {
+  padding-left: 1rem;
 }
 .text-left {
   text-align: left;
