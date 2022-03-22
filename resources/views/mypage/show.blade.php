@@ -18,8 +18,7 @@
                 </div>
             @endif
     
-            <form method="post" action="{{ route('events.reserve', ['id' => $event->id ]) }}">
-                @csrf
+            
                 <div>
                     <x-jet-label for="event_name" value="イベント名" />
                     {{ $event->name }}
@@ -45,32 +44,17 @@
                         {{ $event->endTime }}
                     </div>
                 </div>
-                <div class="md:flex justify-between items-end">
+            <form id="cancel_{{ $event->id }}" method="post" action="{{ route('mypage.cancel', ['id' => $event->id ]) }}">
+              @csrf
+              <div class="md:flex justify-between items-end">
                     <div class="mt-4">
-                        <x-jet-label for="max_people" value="定員数" />
-                        {{ $event->max_people }}
+                        <x-jet-label value="予約人数" />
+                        {{ $reservation->number_of_people }}
                     </div>
-                    <div class="mt-4">
-                        @if($reservablePeople <= 0 )
-                            <span class="text-red-500 text-xs">このイベントは満員です。</span>
-                        @else
-                        <x-jet-label for="reserved_people" value="予約人数" />
-                        <select name="reserved_people">
-                            @for($i = 1; $i <= $reservablePeople; $i++ )
-                                <option value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
-                        @endif
-                    </div>
-                    @if($isReserved === null)
-                        <input type="hidden" name="id" value="{{ $event->id }}">  
-                        @if($reservablePeople > 0 )
-                        <x-jet-button class="ml-4">
-                            予約する
-                        </x-jet-button>
-                        @endif
-                    @else
-                        <span class="text-xs">このイベントは既に予約済みです。</span>
+                    @if($event->eventDate >= \Carbon\Carbon::today()->format('Y年m月d日') )
+                    <a href="#" data-id="{{ $event->id }}" onclick="cancelPost(this)" class="ml-4 bg-black text-white py-2 px-4">
+                        キャンセルする
+                    </a>
                     @endif
                 </div>
             </form>
@@ -78,5 +62,12 @@
           </div>
       </div>
   </div>
-
+  <script>
+    function cancelPost(e) {
+            'use strict';
+            if (confirm('本当にキャンセルしてもよろしいですか？')) {
+                document.getElementById('cancel_' + e.dataset.id).submit();
+            }
+        }
+  </script>
 </x-app-layout>
